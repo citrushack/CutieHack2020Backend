@@ -1,0 +1,12 @@
+{
+  "routes": [
+    {
+      "method": "POST",
+      "path": "/groups",
+      "handler": "group.create",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

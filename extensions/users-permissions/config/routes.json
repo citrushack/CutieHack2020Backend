@@ -1,0 +1,34 @@
+{
+  "routes": [
+    {
+      "method": "PUT",
+      "path": "/users/updateme",
+      "handler": "User.updateme",
+      "config": {
+        "policies": [],
+        "prefix": "",
+        "description": "Update an existing user",
+        "tag": {
+          "plugin": "users-permissions",
+          "name": "User",
+          "actionType": "update"
+        }
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/users/getmygroup",
+      "handler": "User.getMyGroup",
+      "config": {
+        "policies": [],
+        "prefix": "",
+        "description": "Get your latest group info",
+        "tag": {
+          "plugin": "users-permissions",
+          "name": "User",
+          "actionType": "findOne"
+        }
+      }
+    }
+  ]
+}

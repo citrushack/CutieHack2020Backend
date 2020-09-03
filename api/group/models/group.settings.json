@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "groups",
+  "info": {
+    "name": "Group"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true
+  },
+  "attributes": {
+    "uid": {
+      "type": "uid",
+      "minLength": 4
+    },
+    "users": {
+      "plugin": "users-permissions",
+      "collection": "user",
+      "via": "group"
+    }
+  }
+}
