@@ -48,23 +48,6 @@ Follow these steps to configure a local Strapi project to use a [MongoDB Atlas](
   - Then click the green `Confirm` button.
   - Delete the `0.0.0.0/0` configuration after testing the connection.
 
-  ::: tip
-  If for any reason you need to test the configuration or other aspect of your connection to the database, you may want to set back the `Allow Access from Anywhere`. Follow this steps:
-  :::
-
-  - Click the green `+ ADD IP ADDRESS`
-    - Next add `0.0.0.0/0` in the `Whitelist Entry`. **Note:** In permanent projects you would configure this with the appropriate IP addresses.
-    - Leave a comment to label this IP Address. E.g. `Anywhere`.
-    - Click `Confirm`. Then wait until the status turns from `Pending` to `Active`.
-
-  ::: tip
-  If you are serving you Strapi project from a known IP Address then follow the following steps to `allow Network Access`.
-  :::
-
-  - **Manually** enter in an IP address to `whitelist`, for your Strapi server.
-  - Leave a comment to label this IP Address. E.g. `Heroku Server`
-  - Then click the green `Confirm` button.
-
 #### 4. Retrieve database credentials
 
 MongoDB Atlas automatically exposes the database credentials into a single environment variable accessible by your app. To locate it, follow these steps:
