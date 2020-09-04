@@ -1,4 +1,4 @@
-# Cutie Hack Frontend
+# Cutie Hack Backend
 
 Backend for cutie hack 2020, created using [Strapi](https://strapi.io).
 
