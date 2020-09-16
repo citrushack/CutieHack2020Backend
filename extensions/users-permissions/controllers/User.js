@@ -67,12 +67,17 @@ module.exports = {
       await strapi.plugins['users-permissions'].services.user.edit({ id }, {group: null});
       return ctx.send({response : 'GroupLeft'});
     }
-    
+
     const foundGroup = await strapi.query('group').findOne({ uid: ctx.request.body.group });
     if(!foundGroup) return ctx.badRequest('CouldNotFindGroup');
-    
+
+
+    if(has(foundGroup, 'users') && foundGroup.users.length > 3 ) return ctx.badRequest('GroupMaxSize');
+
+    //strapi.log.debug("groupSize", foundGroup.users.length);
+
     const updateData =  {'group': foundGroup.id};
-    
+
     const updatedPerson = await strapi.plugins['users-permissions'].services.user.edit({ id }, updateData);
     if(!updatedPerson) return ctx.badRequest('CouldNotUpdatePerson');
 
@@ -85,8 +90,8 @@ module.exports = {
       cleaned.users = cleaned.users.map(user => pick(user, ['firstname', 'lastname', 'id']));
     }
 
-    return ctx.send(cleaned);  
-    
+    return ctx.send(cleaned);
+
     //updateData = {...ctx.request.body};
       // strapi.log.debug("updateData", updateData);
       // strapi.log.debug("foundGroup", foundGroup);
@@ -110,15 +115,15 @@ module.exports = {
     }
     const foundGroup = await strapi.query('group').findOne({ id: user.group['id'] });
     if(!foundGroup) return ctx.badRequest('CouldNotFindGroup');
-    
+
     let cleaned = sanitizeGroup(foundGroup);
 
     if(has(cleaned, 'users') && cleaned.users.length ){
       cleaned.users = cleaned.users.map(user => pick(user, ['firstname', 'lastname', 'id']));
     }
 
-    return ctx.send(cleaned);  
-    
+    return ctx.send(cleaned);
+
     //updateData = {...ctx.request.body};
       // strapi.log.debug("updateData", updateData);
       // strapi.log.debug("foundGroup", foundGroup);
