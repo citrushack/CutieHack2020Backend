@@ -55,12 +55,12 @@
     },
     "firstname": {
       "type": "string",
-      "required": true
+      "required": false
     },
     "lastname": {
       "type": "string",
       "private": false,
-      "required": true
+      "required": false
     },
     "school": {
       "type": "string"
@@ -111,8 +111,15 @@
       "type": "string"
     },
     "group": {
-      "via": "users",
-      "model": "group"
+      "model": "group",
+      "via": "users"
+    },
+    "appstatus": {
+      "type": "boolean"
+    },
+    "appComplete": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

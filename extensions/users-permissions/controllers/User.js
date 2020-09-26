@@ -1,4 +1,4 @@
-'use strict';
+
 
 /**
  * User.js controller
@@ -8,6 +8,8 @@
 
 const has = require('lodash/has');
 const pick = require('lodash/pick');
+const some = require('lodash/some');
+const isEmpty = require('lodash/isEmpty');
 const { sanitizeEntity } = require('strapi-utils');
 
 const sanitizeUser = user =>
@@ -59,7 +61,24 @@ module.exports = {
     //   return ctx.badRequest('password.notAllowed');
     // }
 
-    if (!has(ctx.request.body, 'group')) return ctx.badRequest('OnlyGroupChangesAllowed');
+    // if (!has(ctx.request.body, 'group')) return ctx.badRequest('OnlyGroupChangesAllowed');
+    if (!has(ctx.request.body, 'group') && user.appComplete) return ctx.badRequest('OnlyGroupChangesAllowed');
+
+
+    if (!user.appComplete) {
+      const upData = pick(ctx.request.body, ['addr1', 'country', 'city', 'state', 'zip', 'firstname', 'lastname', 'gender', 'school', 'major', 'linkedin', 'github', 'year']);
+   const notFinished = some(upData, isEmpty);
+
+        ['addr1', 'country', 'city', 'state', 'zip', 'firstname', 'lastname', 'gender', 'school', 'major', 'linkedin', 'github', 'year'].some(elm => {if(isEmpty(upData[elm])) return ctx.badRequest('MissingData')});
+
+    strapi.log.debug("upData ", upData);
+        if(notFinished) return ctx.badRequest('NotFinished');
+
+        const updatedPerson = await strapi.plugins['users-permissions'].services.user.edit({ id }, {...upData, appComplete : true});
+    if(!updatedPerson) return ctx.badRequest('CouldNotUpdatePerson');
+    let cleaned = sanitizeUser(updatedPerson);
+    return ctx.send(cleaned);
+    }
     //strapi.log.debug("updateData", user.group['id']);
 
     if(ctx.request.body.group == 'none'){
@@ -127,6 +146,22 @@ module.exports = {
     //updateData = {...ctx.request.body};
       // strapi.log.debug("updateData", updateData);
       // strapi.log.debug("foundGroup", foundGroup);
+  },
+  async getMyStatus(ctx) {
+    const advancedConfigs = await strapi
+      .store({
+        environment: '',
+        type: 'plugin',
+        name: 'users-permissions',
+        key: 'advanced',
+      })
+      .get();
+
+    const status = ctx.state.user["appstatus"];
+
+    return ctx.send({status: status});
+
   }
+
 
 };

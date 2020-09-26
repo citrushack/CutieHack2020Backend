@@ -29,6 +29,21 @@
           "actionType": "findOne"
         }
       }
+    },
+    {
+      "method": "GET",
+      "path": "/users/getmystatus",
+      "handler": "User.getMyStatus",
+      "config": {
+        "policies": [],
+        "prefix": "",
+        "description": "Get your latest app status",
+        "tag": {
+          "plugin": "users-permissions",
+          "name": "User",
+          "actionType": "findOne"
+        }
+      }
     }
   ]
 }

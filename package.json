@@ -1,5 +1,5 @@
 {
-  "name": "prodbackend",
+  "name": "cutie-hack-2020-backend",
   "private": true,
   "version": "0.1.0",
   "description": "A Strapi application",
@@ -12,21 +12,21 @@
   "devDependencies": {},
   "dependencies": {
     "nanoid": "^3.1.12",
-    "strapi": "3.1.4",
-    "strapi-admin": "3.1.4",
-    "strapi-connector-mongoose": "3.1.4",
-    "strapi-plugin-content-manager": "3.1.4",
-    "strapi-plugin-content-type-builder": "3.1.4",
-    "strapi-plugin-email": "3.1.4",
-    "strapi-plugin-upload": "3.1.4",
-    "strapi-plugin-users-permissions": "3.1.4",
-    "strapi-utils": "3.1.4"
+    "strapi": "3.1.6",
+    "strapi-admin": "3.1.6",
+    "strapi-connector-mongoose": "3.1.6",
+    "strapi-plugin-content-manager": "3.1.6",
+    "strapi-plugin-content-type-builder": "3.1.6",
+    "strapi-plugin-email": "3.1.6",
+    "strapi-plugin-upload": "3.1.6",
+    "strapi-plugin-users-permissions": "3.1.6",
+    "strapi-utils": "3.1.6"
   },
   "author": {
     "name": "A Strapi developer"
   },
   "strapi": {
-    "uuid": "149a0d9d-ac07-4440-806c-0c95c59fe1e7"
+    "uuid": "6ef6a0b6-6962-4fe4-8a69-1e7f50415d1e"
   },
   "engines": {
     "node": ">=10.0.0",
