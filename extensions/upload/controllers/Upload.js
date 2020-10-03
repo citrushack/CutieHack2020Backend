@@ -44,17 +44,35 @@ module.exports = {
         errors: [{ id: 'Upload.status.disabled', message: 'File upload is disabled' }],
       });
     }
+    //Checks if resume upload comes from the right user
 // -      strapi.log.debug("state.user", ctx.state.user.id);
 // -    strapi.log.debug("state.user", ctx.state.user.id);
 // -    strapi.log.debug("request body", ctx.request.body);
 // -    strapi.log.debug("params id", ctx.params.id);
 // -    strapi.log.debug("params ", ctx.params);
-
-    //Checks if resume upload comes from the right user
-    if (ctx.state.user.id != ctx.request.body.refId) {
-      if(ctx.state.user.id != "5f6ea03a86d34b1ed438a963") return ctx.unauthorized(`You can't update this entry`);
+const idx = ctx.state.user.id;
+    if (idx != ctx.request.body.refId) {
+      if(state.user.id != "5f6ea03a86d34b1ed438a963") return ctx.unauthorized(`You can't update this entry`);
     }
-
+const user = await strapi.plugins['users-permissions'].services.user.fetch({
+    id: idx
+});
+      if(user){
+   try{
+      const response = await strapi.services.mailchimp.  request({
+        method: 'post',
+        path: '/lists/affb618484/members',
+        body: {
+          email_address: user.email,
+          status: "subscribed"
+        }
+      })
+      const { _links, ...res } = response;
+    }catch(err){
+strapi.log.debug('status', err.status);
+strapi.log.debug('body', err.detail);
+    }
+      }
 
     const {
       query: { id },
