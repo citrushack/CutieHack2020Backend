@@ -10,7 +10,7 @@
 const _ = require('lodash');
 const uuid = require('uuid/v4');
 
-const usersPermissionsActions = require('../users-permissions-actions');
+const usersPermissionsActions = require('../../../../node_modules/strapi-plugin-users-permissions/config/users-permissions-actions');
 
 module.exports = async () => {
   const pluginStore = strapi.store({
