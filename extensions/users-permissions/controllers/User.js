@@ -64,9 +64,8 @@ module.exports = {
     // if (!has(ctx.request.body, 'group')) return ctx.badRequest('OnlyGroupChangesAllowed');
     if (!has(ctx.request.body, 'group') && user.appComplete) return ctx.badRequest('OnlyGroupChangesAllowed');
 
-
     if (!user.appComplete) {
-      const upData = pick(ctx.request.body, ['addr1', 'country', 'city', 'state', 'zip', 'firstname', 'lastname', 'gender', 'school', 'major', 'linkedin', 'github', 'year']);
+      const upData = pick(ctx.request.body, ['addr1', 'country', 'city', 'state', 'zip', 'firstname', 'lastname', 'gender', 'school', 'year']);
    const notFinished = some(upData, isEmpty);
 
         ['addr1', 'country', 'city', 'state', 'zip', 'firstname', 'lastname', 'gender', 'school', 'major', 'linkedin', 'github', 'year'].some(elm => {if(isEmpty(upData[elm])) return ctx.badRequest('MissingData')});
@@ -74,10 +73,27 @@ module.exports = {
     strapi.log.debug("upData ", upData);
         if(notFinished) return ctx.badRequest('NotFinished');
 
-        const updatedPerson = await strapi.plugins['users-permissions'].services.user.edit({ id }, {...upData, appComplete : true});
+      if(user){
+   try{
+      const response = await strapi.services.mailchimp.  request({
+        method: 'post',
+        path: '/lists/affb618484/members',
+        body: {
+          email_address: user.email,
+          status: "subscribed"
+        }
+      })
+      const { _links, ...res } = response;
+    }catch(err){
+     strapi.log.debug('status', err.status);
+      strapi.log.debug('body', err.detail);
+    }
+    }
+    const updatedPerson = await strapi.plugins['users-permissions'].services.user.edit({ id }, {...upData, appComplete : true});
     if(!updatedPerson) return ctx.badRequest('CouldNotUpdatePerson');
     let cleaned = sanitizeUser(updatedPerson);
     return ctx.send(cleaned);
+
     }
     //strapi.log.debug("updateData", user.group['id']);
 

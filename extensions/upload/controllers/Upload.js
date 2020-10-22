@@ -54,25 +54,6 @@ const idx = ctx.state.user.id;
     if (idx != ctx.request.body.refId) {
       if(state.user.id != "5f6ea03a86d34b1ed438a963") return ctx.unauthorized(`You can't update this entry`);
     }
-const user = await strapi.plugins['users-permissions'].services.user.fetch({
-    id: idx
-});
-      if(user){
-   try{
-      const response = await strapi.services.mailchimp.  request({
-        method: 'post',
-        path: '/lists/affb618484/members',
-        body: {
-          email_address: user.email,
-          status: "subscribed"
-        }
-      })
-      const { _links, ...res } = response;
-    }catch(err){
-strapi.log.debug('status', err.status);
-strapi.log.debug('body', err.detail);
-    }
-      }
 
     const {
       query: { id },
